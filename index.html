@@ -9,16 +9,19 @@
             margin: 0;
             padding: 5px;
         }
+
         input {
             margin: auto;
             font-size: xx-large;
             width: 100%
         }
+
         button {
             width: 50px;
             height: 50px;
-            
+            font-size: x-large;
         }
+
         div {
             margin: auto;
             width: 50%;
@@ -26,6 +29,7 @@
             background-color: lightgray;
             padding: 25px;
         }
+
         table {
             margin: auto;
         }
@@ -34,70 +38,110 @@
 
 <body>
     <div>
-    <input type="string" id="calcText"></textarea>
-    <table id="mainTable" width="50%">
-        <tr>
-            <td>
-                <button id="oneBut">1</button>
-            </td>
-            <td>
-                <button id="twoBut">2</button>
-            </td>
-            <td>
-                <button id="threeBut">3</button>
-            </td>
-            <td>
-                <button id="addButton">+</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id="fourBut">4</button>
-            </td>
-            <td>
-                <button id="fiveBut">5</button>
-            </td>
-            <td>
-                <button id="sixBut">6</button>
-            </td>
-            <td>
-                <button id="subButton">-</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id="sevenBut">7</button>
-            </td>
-            <td>
-                <button id="eightBut">8</button>
-            </td>
-            <td>
-                <button id="nineBut">9</button>
-            </td>
-            <td>
-                <button id="divButton">/</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button id="zeroBut">0</button>
-            </td>
-            <td>
-                <button id="equalButton">=</button>
-            </td>
-            <td>
-                <button id="clearButton">C</button>
-            </td>
-            <td>
-                <button id="multButton">*</button>
-            </td>
-        </tr>
-    </table>
+        <input type="number" id="calcText"></textarea>
+        <table id="mainTable" width="50%">
+            <tr>
+                <td>
+                    <button onclick="valuePrint(1)" id="oneBut">1</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(2)" id="twoBut">2</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(3)" id="threeBut">3</button>
+                </td>
+                <td>
+                    <button id="addButton" onclick="handleOperatorClick('+')">+</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="valuePrint(4)" id="fourBut">4</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(5)" id="fiveBut">5</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(6)" id="sixBut">6</button>
+                </td>
+                <td>
+                    <button id="subButton"onclick="handleOperatorClick('-')">-</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="valuePrint(7)" id="sevenBut">7</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(8)" id="eightBut">8</button>
+                </td>
+                <td>
+                    <button onclick="valuePrint(9)" id="nineBut">9</button>
+                </td>
+                <td>
+                    <button id="divButton" onclick="handleOperatorClick('/')">/</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="valuePrint(0)" id="zeroBut">0</button>
+                </td>
+                <td>
+                    <button id="equalButton">=</button>
+                </td>
+                <td>
+                    <button id="clearButton">C</button>
+                </td>
+                <td>
+                    <button id="multButton"onclick="handleOperatorClick('*')">*</button>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 
 <script>
+    input = document.getElementById("calcText");
+    equalButton = document.getElementById("equalButton");
 
+    document.getElementById("clearButton").addEventListener("click",()=>{
+        input.value = "";
+    })
+    function valuePrint(v) {
+        input.value += v;
+    }
+    let operators=""
+    firstVar = 0;
+    function handleOperatorClick(operator) {
+        firstVar = input.value;
+        if (['+', '-', '*', '/'].includes(operator)) {
+            operators = operator;
+        }
+        input.value+=operator
+    }
+    
+    function evalOpp(num1, num2, operator) {
+        let result=0
+        switch (operator) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                return num1 / num2;
+            default:
+                console.error('Invalid operator');
+                return null;
+        }
+    }
+
+    equalButton.addEventListener("click", function () {
+        let result= evalOpp(Number(firstVar), Number(input.value),operators)
+        input.value=""
+      input.value=result
+    });
 </script>
 
 </html>
